@@ -15,35 +15,20 @@
 <div class="container">
 
     <div>
-        <a href="/">Top</a>
+        <h4>動作確認機能</h4>
+        <ul>
+            <li><a href="/threeLeggedOauth">3者間認証(3-legged-oauth)</a></li>
+        </ul>
     </div>
-    @isset($token)
-        <div class="content">
-            <h1>Token</h1>
-            <ul>
-                @foreach($token as $key => $value)
-                    <li><b>{{$key}}</b>： {{$value}}</li>
-                @endforeach
-            </ul>
-        </div>
-        <div>
-            <a href="https://api.twitter.com/oauth/authorize?oauth_token={{$token["oauth_token"]}}&lang=ja">login</a>
-        </div>
-    @endisset
-    @isset($message)
-        <div>{{$message}}</div>
-    @endisset
-    @isset($timelines)
-        <div class="content">
-            <h1>タイムライン</h1>
-            <ul>
-                @foreach($timelines as $timeline)
-                    <li> {{$timeline->text}}</li>
-                @endforeach
-            </ul>
-        </div>
-
-    @endisset
+    <div>
+        <h4>Twitter Token</h4>
+        <ul>
+            <li><b>API_KEY</b>：{{\App\Libs\TwitterConfig::API_KEY}}</li>
+            <li><b>API_SECRET</b>：{{\App\Libs\TwitterConfig::API_SECRET}}</li>
+            <li><b>ACCESS_TOKEN</b>：{{\App\Libs\TwitterConfig::ACCESS_TOKEN}}</li>
+            <li><b>ACCESS_TOKEN_SECRET</b>：{{\App\Libs\TwitterConfig::ACCESS_TOKEN_SECRET}}</li>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

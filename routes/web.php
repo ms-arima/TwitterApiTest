@@ -1,3 +1,7 @@
 <?php
 
-Route::resource('/', 'HomeController');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::resource('/threeLeggedOauth', 'ThreeLeggedOauthController');
