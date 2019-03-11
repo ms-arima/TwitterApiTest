@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Model\TwitterOauth;
 use App\Http\Model\TwitterStatus;
-use App\Libs\TwitterCurl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -27,7 +26,11 @@ class ThreeLeggedOauthController extends Controller
             $message = '認証成功';
 
             // タイムライン取得
-            $timelines = TwitterStatus::getUserTimeLines($token['oauth_token'], $token['oauth_token_secret'], $token['user_id']);
+            $user_id = array(
+                'user_id' => '1100327713007529985'
+            );
+
+            $timelines = TwitterStatus::getUserTimeLines($token['oauth_token'], $token['oauth_token_secret'], $user_id);
 
             return view('3-legged-oauth', compact('token', 'message', 'timelines'));
         } elseif (Input::has("denied")) {

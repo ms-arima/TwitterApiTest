@@ -16,17 +16,14 @@ class TwitterOauth
      */
     public static function getOauthRequestToken()
     {
-        $twitterClient = new TwitterCurl();
+        $twitterClient = new TwitterCurl('oauth/request_token', "POST");
         $params = array(
             "oauth_callback" => TwitterConfig::OAUTH_CALLBACK_URL,
         );
-        $result = $twitterClient->handleRequest('oauth/request_token', "POST", $params);
-        if ($result['curl_info']['http_code'] != 200) {
-            throw new \Exception("API アクセスエラー " . $result['curl_info']['http_code'] . " " . $result['response']);
-        }
+        $result = $twitterClient->handleRequest($params);
 
         $token = [];
-        parse_str($result['response'], $token);
+        parse_str($result, $token);
         return $token;
     }
 
@@ -37,21 +34,18 @@ class TwitterOauth
      * @return array
      * @throws \Exception
      */
-    public static function getOauthAccessToken(string $oauth_token,string  $oauth_verifier,string  $oauth_token_secret)
+    public static function getOauthAccessToken(string $oauth_token, string $oauth_verifier, string $oauth_token_secret)
     {
         $params = array(
             "oauth_token" => $oauth_token,
             "oauth_verifier" => $oauth_verifier
         );
 
-        $twitterClient = new TwitterCurl();
-        $result = $twitterClient->handleRequest("/oauth/access_token", "POST", $params, $oauth_token_secret);
-        if ($result['curl_info']['http_code'] != 200) {
-            throw new \Exception("API アクセスエラー " . $result['curl_info']['http_code'] . " " . $result['response']);
-        }
+        $twitterClient = new TwitterCurl("/oauth/access_token", "POST");
+        $result = $twitterClient->handleRequest($params, $oauth_token_secret);
 
         $token = [];
-        parse_str($result['response'], $token);
+        parse_str($result, $token);
         return $token;
     }
 }

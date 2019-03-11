@@ -18,6 +18,8 @@
         <h4>動作確認機能</h4>
         <ul>
             <li><a href="/threeLeggedOauth">3者間認証(3-legged-oauth)</a></li>
+            <li><a href="/userTimeLine">ツイートCRD</a></li>
+            <li><a href="/followers">ページネーション</a></li>
         </ul>
     </div>
     <div>

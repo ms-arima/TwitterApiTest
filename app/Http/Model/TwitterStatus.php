@@ -5,44 +5,51 @@ namespace App\Http\Model;
 
 use App\Libs\TwitterConfig;
 use App\Libs\TwitterCurl;
+use Illuminate\Support\Facades\Log;
 
 class TwitterStatus
 {
+
+    const API_STATUS_VERSION = '1.1';
 
 
     /**
      * @param string $oauth_token
      * @param string $oauth_token_secret
-     * @param string $user_id
+     * @param array $user_id
      * @return array
      * @throws \Exception
      */
-    public static function getUserTimeLines(string $oauth_token, string $oauth_token_secret, string $user_id)
+    public static function getUserTimeLines(string $oauth_token, string $oauth_token_secret, array $user_id)
     {
-        $twitterClient = new TwitterCurl();
+
         $urlQuery = array(
-            'user_id' => $user_id,
             'count' => 10
         );
-        $params = $urlQuery;
-        $params['oauth_token'] = $oauth_token;
-        $result = $twitterClient->handleRequest(
-            "1.1/statuses/user_timeline.json",
+        $urlQuery = array_merge($user_id, $urlQuery);
+
+
+        $twitterClient = new TwitterCurl(
+            self::API_STATUS_VERSION . "/statuses/user_timeline.json",
             "GET",
-            $params,
-            $oauth_token_secret,
             $urlQuery
         );
 
-        if ($result['curl_info']['http_code'] != 200) {
-            throw new \Exception("API アクセスエラー " . $result['curl_info']['http_code'] . " " . $result['response']);
-        }
+        $params = array(
+            'oauth_token' => $oauth_token,
+        );
+        $params = array_merge($urlQuery, $params);
+        $result = $twitterClient->handleRequest(
+            $params,
+            $oauth_token_secret
+        );
 
-        $response_json = json_decode($result['response']);
+        $response_json = json_decode($result);
 
         $json = [];
         foreach ($response_json as $data) {
             $json[] = array(
+                'id' => $data->id_str,
                 'text' => $data->text,
                 'tweeter_name' => $data->user->name,
                 'tweeter_screen_name' => $data->user->screen_name,
@@ -52,6 +59,59 @@ class TwitterStatus
         }
 
         return $json;
+    }
+
+
+    /**
+     * @param $tweet_id
+     * @throws \Exception
+     */
+    public static function deleteTweet($tweet_id)
+    {
+        $params = array(
+            'oauth_token' => TwitterConfig::ACCESS_TOKEN
+        );
+
+        $twitterClient = new TwitterCurl(
+            self::API_STATUS_VERSION . "/statuses/destroy/{$tweet_id}.json",
+            "POST"
+        );
+
+        $twitterClient->handleRequest(
+            $params,
+            TwitterConfig::ACCESS_TOKEN_SECRET
+        );
+
+    }
+
+
+    /**
+     * @param string $text
+     * @throws \Exception
+     */
+    public static function addTweet(string $text)
+    {
+
+        $urlQuery = array(
+            'status' => $text
+        );
+
+        $params = array(
+            'oauth_token' => TwitterConfig::ACCESS_TOKEN,
+        );
+        $params = array_merge($urlQuery, $params);
+
+        $twitterClient = new TwitterCurl(
+            self::API_STATUS_VERSION . "/statuses/update.json",
+            "POST",
+            $urlQuery
+        );
+
+        $twitterClient->handleRequest(
+            $params,
+            TwitterConfig::ACCESS_TOKEN_SECRET
+        );
+
     }
 
 }
