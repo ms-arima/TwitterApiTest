@@ -17,11 +17,11 @@ class TwitterOauth
      */
     public static function getOauthRequestToken()
     {
-        $twitterClient = new TwitterCurl('oauth/request_token', "POST");
+        $twitterClient = new TwitterCurl('oauth/request_token');
         $params = array(
             "oauth_callback" => TwitterConfig::OAUTH_CALLBACK_URL,
         );
-        $result = $twitterClient->handleRequest($params);
+        $result = $twitterClient->post($params);
 
         $token = [];
         parse_str($result, $token);
@@ -42,8 +42,8 @@ class TwitterOauth
             "oauth_verifier" => $oauth_verifier
         );
 
-        $twitterClient = new TwitterCurl("/oauth/access_token", "POST");
-        $result = $twitterClient->handleRequest($params, $oauth_token_secret);
+        $twitterClient = new TwitterCurl("/oauth/access_token");
+        $result = $twitterClient->post($params, $oauth_token_secret);
 
         $token = [];
         parse_str($result, $token);

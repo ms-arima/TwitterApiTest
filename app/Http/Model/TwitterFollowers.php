@@ -30,25 +30,17 @@ class TwitterFollowers
         }
         $urlQuery = array_merge($user_id, $urlQuery);
 
-
-        $twitterClient = new TwitterCurl(
+        $twitterClient = new TwitterCurlInnerAccessToken(
             self::API_STATUS_VERSION . "/followers/list.json",
-            "GET",
             $urlQuery
         );
 
-        $params = array(
-            'oauth_token' => TwitterConfig::ACCESS_TOKEN,
-        );
-        $params = array_merge($urlQuery, $params);
-        $result = $twitterClient->handleRequest(
-            $params,
-            TwitterConfig::ACCESS_TOKEN_SECRET
+        $result = $twitterClient->get(
+            $urlQuery
         );
 
         $response_json = json_decode($result);
 
-        \Log::debug($result);
         $json = [];
         foreach ($response_json->users as $data) {
             $json['users'][] = array(

@@ -1,6 +1,11 @@
 <?php
 
-namespace App\Libs;
+namespace App\Http\Model\Libs;
+
+/**
+ * Class TwitterCurl
+ * @package App\Http\Model\Libs
+ */
 class TwitterCurl
 {
 
@@ -16,10 +21,9 @@ class TwitterCurl
     /**
      * TwitterCurl constructor.
      * @param string $request_url_path
-     * @param string $request_method
      * @param array $request_url_query
      */
-    public function __construct(string $request_url_path, string $request_method, array $request_url_query = [])
+    public function __construct(string $request_url_path, array $request_url_query = [])
     {
 
         $this->api_key = TwitterConfig::API_KEY;
@@ -30,7 +34,6 @@ class TwitterCurl
         } else {
             $this->request_url_query = $this->request_url;
         }
-        $this->request_method = $request_method;
     }
 
     /**
@@ -39,7 +42,32 @@ class TwitterCurl
      * @return mixed
      * @throws \Exception
      */
-    public function handleRequest(array $params, string $request_token_secret = '')
+    public function get(array $params = [], string $request_token_secret = '')
+    {
+        $this->request_method = 'GET';
+        return $this->handleRequest($params, $request_token_secret);
+    }
+
+    /**
+     * @param array $params
+     * @param string $request_token_secret
+     * @return mixed
+     * @throws \Exception
+     */
+    public function post(array $params = [], string $request_token_secret = '')
+    {
+        $this->request_method = 'POST';
+        return $this->handleRequest($params, $request_token_secret);
+    }
+
+
+    /**
+     * @param array $params
+     * @param string $request_token_secret
+     * @return mixed
+     * @throws \Exception
+     */
+    private function handleRequest(array $params, string $request_token_secret = '')
     {
         $this->createHeaderQuery($params, $request_token_secret);
         $this->createAuthorizationHeader();

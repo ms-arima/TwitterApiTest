@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Model\Libs\TwitterConfig;
 use App\Http\Model\TwitterStatus;
-use App\Libs\TwitterConfig;
 use Illuminate\Http\Request;
 
 class UserTimeLineController extends Controller

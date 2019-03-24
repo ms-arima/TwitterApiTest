@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libs;
+namespace App\Http\Model\Libs;
 
 /**
  * Twitter const

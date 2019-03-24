@@ -30,7 +30,6 @@ class TwitterStatus
 
         $twitterClient = new TwitterCurl(
             self::API_STATUS_VERSION . "/statuses/user_timeline.json",
-            "GET",
             $urlQuery
         );
 
@@ -38,7 +37,7 @@ class TwitterStatus
             'oauth_token' => $oauth_token,
         );
         $params = array_merge($urlQuery, $params);
-        $result = $twitterClient->handleRequest(
+        $result = $twitterClient->get(
             $params,
             $oauth_token_secret
         );
@@ -67,19 +66,12 @@ class TwitterStatus
      */
     public static function deleteTweet($tweet_id)
     {
-        $params = array(
-            'oauth_token' => TwitterConfig::ACCESS_TOKEN
+
+        $twitterClient = new TwitterCurlInnerAccessToken(
+            self::API_STATUS_VERSION . "/statuses/destroy/{$tweet_id}.json"
         );
 
-        $twitterClient = new TwitterCurl(
-            self::API_STATUS_VERSION . "/statuses/destroy/{$tweet_id}.json",
-            "POST"
-        );
-
-        $twitterClient->handleRequest(
-            $params,
-            TwitterConfig::ACCESS_TOKEN_SECRET
-        );
+        $twitterClient->post();
 
     }
 
@@ -95,21 +87,12 @@ class TwitterStatus
             'status' => $text
         );
 
-        $params = array(
-            'oauth_token' => TwitterConfig::ACCESS_TOKEN,
-        );
-        $params = array_merge($urlQuery, $params);
-
-        $twitterClient = new TwitterCurl(
+        $twitterClient = new TwitterCurlInnerAccessToken(
             self::API_STATUS_VERSION . "/statuses/update.json",
-            "POST",
             $urlQuery
         );
 
-        $twitterClient->handleRequest(
-            $params,
-            TwitterConfig::ACCESS_TOKEN_SECRET
-        );
+        $twitterClient->post($urlQuery);
 
     }
 
