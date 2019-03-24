@@ -3,8 +3,9 @@
 namespace App\Http\Model;
 
 
-use App\Libs\TwitterConfig;
-use App\Libs\TwitterCurl;
+
+use App\Http\Model\Libs\TwitterConfig;
+use App\Http\Model\Libs\TwitterCurl;
 
 class TwitterOauth
 {

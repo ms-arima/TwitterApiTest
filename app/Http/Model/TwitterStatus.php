@@ -3,9 +3,8 @@
 namespace App\Http\Model;
 
 
-use App\Libs\TwitterConfig;
-use App\Libs\TwitterCurl;
-use Illuminate\Support\Facades\Log;
+use App\Http\Model\Libs\TwitterCurl;
+use App\Http\Model\Libs\TwitterCurlInnerAccessToken;
 
 class TwitterStatus
 {
