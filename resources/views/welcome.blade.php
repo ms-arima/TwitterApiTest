@@ -25,10 +25,10 @@
     <div>
         <h4>Twitter Token</h4>
         <ul>
-            <li><b>API_KEY</b>：{{\App\Libs\TwitterConfig::API_KEY}}</li>
-            <li><b>API_SECRET</b>：{{\App\Libs\TwitterConfig::API_SECRET}}</li>
-            <li><b>ACCESS_TOKEN</b>：{{\App\Libs\TwitterConfig::ACCESS_TOKEN}}</li>
-            <li><b>ACCESS_TOKEN_SECRET</b>：{{\App\Libs\TwitterConfig::ACCESS_TOKEN_SECRET}}</li>
+            <li><b>API_KEY</b>：{{\App\Http\Model\Libs\TwitterConfig::API_KEY}}</li>
+            <li><b>API_SECRET</b>：{{\App\Http\Model\Libs\TwitterConfig::API_SECRET}}</li>
+            <li><b>ACCESS_TOKEN</b>：{{\App\Http\Model\Libs\TwitterConfig::ACCESS_TOKEN}}</li>
+            <li><b>ACCESS_TOKEN_SECRET</b>：{{\App\Http\Model\Libs\TwitterConfig::ACCESS_TOKEN_SECRET}}</li>
         </ul>
     </div>
 </div>
